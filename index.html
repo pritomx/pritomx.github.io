@@ -1,0 +1,279 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>~*~ AUTOMATA STUDIOS ~*~ Official HomePage ~*~</title>
+<style>
+  body{
+    background:#000080;
+    background-image: repeating-linear-gradient(45deg, #000080 0 2px, #0000a0 2px 4px);
+    color:#00FF00;
+    font-family: "Comic Sans MS", "Comic Sans", cursive;
+    margin:0;
+    padding:20px;
+  }
+  marquee{
+    background:#000;
+    color:#FFFF00;
+    font-weight:bold;
+    font-size:20px;
+    border:4px ridge #C0C0C0;
+    padding:6px;
+  }
+  .container{
+    max-width:820px;
+    margin:20px auto;
+    background:#C0C0C0;
+    border:6px outset #fff;
+    padding:14px;
+  }
+  .titlebar{
+    background:linear-gradient(90deg,#000080,#1084d0);
+    color:#fff;
+    font-weight:bold;
+    padding:6px 10px;
+    font-family:Tahoma, sans-serif;
+    font-size:14px;
+    display:flex;
+    justify-content:space-between;
+  }
+  h1{
+    text-align:center;
+    color:#FF00FF;
+    text-shadow: 2px 2px 0 #000, -1px -1px 0 #00FFFF;
+    font-size:2.6em;
+    letter-spacing:2px;
+    margin:16px 0 4px;
+  }
+  .subtitle{
+    text-align:center;
+    color:#000;
+    background:#FFFF00;
+    border:3px dashed #FF0000;
+    padding:8px;
+    font-weight:bold;
+    margin-bottom:16px;
+  }
+  hr{
+    border:none;
+    height:6px;
+    background:repeating-linear-gradient(90deg,#FF0000 0 10px,#FFFF00 10px 20px,#00FF00 20px 30px,#00FFFF 30px 40px,#FF00FF 40px 50px);
+  }
+  .content{
+    background:#fff;
+    color:#000;
+    border:4px inset #808080;
+    padding:16px;
+    margin:14px 0;
+  }
+  .content h2{
+    color:#800080;
+    font-size:1.4em;
+    border-bottom:3px double #FF00FF;
+    display:inline-block;
+  }
+  .blink{ animation: blinker 1s step-start infinite; color:red; font-weight:bold;}
+  @keyframes blinker{ 50%{opacity:0;} }
+
+  table.appstable{
+    width:100%;
+    border-collapse:collapse;
+    background:#fff;
+  }
+  table.appstable td, table.appstable th{
+    border:3px groove #999;
+    padding:10px;
+    vertical-align:top;
+  }
+  table.appstable th{
+    background:#000080;
+    color:#FFFF00;
+    font-family:Tahoma,sans-serif;
+  }
+  .app-icon-img{
+    width:64px; height:64px;
+    image-rendering:pixelated;
+    border:2px solid #000;
+  }
+  .stars{ color:#FF8C00; font-weight:bold; }
+  .visit-btn{
+    display:inline-block;
+    background:#00FF00;
+    border:3px outset #fff;
+    color:#000;
+    font-weight:bold;
+    padding:6px 14px;
+    text-decoration:none;
+    font-family:Tahoma,sans-serif;
+  }
+  .visit-btn:active{ border-style:inset; }
+
+  .guestbook{
+    background:#000;
+    color:#0f0;
+    font-family:"Courier New", monospace;
+    padding:12px;
+    border:3px inset #fff;
+  }
+
+  .webring{
+    text-align:center;
+    background:#FFD700;
+    border:3px solid #000;
+    padding:10px;
+    margin:14px 0;
+    font-weight:bold;
+  }
+
+  .badges{
+    display:flex;
+    flex-wrap:wrap;
+    gap:8px;
+    justify-content:center;
+    margin:14px 0;
+  }
+  .badge{
+    background:#000;
+    color:#0f0;
+    border:2px solid #fff;
+    font-family:Tahoma, sans-serif;
+    font-size:11px;
+    padding:4px 8px;
+    font-weight:bold;
+  }
+
+  footer{
+    text-align:center;
+    font-size:12px;
+    color:#fff;
+    margin-top:20px;
+  }
+  .hitcounter{
+    background:#000;
+    color:#FFFF00;
+    font-family:"Courier New",monospace;
+    padding:4px 8px;
+    display:inline-block;
+    letter-spacing:3px;
+    border:2px solid #fff;
+  }
+  a.gh { color:#00FFFF; }
+  center img.spin, center span.spin{ animation: spin 3s linear infinite; }
+  @keyframes spin{ from{transform:rotate(0deg);} to{transform:rotate(360deg);} }
+</style>
+</head>
+<body>
+
+<marquee behavior="scroll" direction="left">*** WELCOME TO THE OFFICIAL AUTOMATA STUDIOS HOMEPAGE *** BEST VIEWED IN NETSCAPE NAVIGATOR *** SOLO DEVELOPER FROM DHAKA, BANGLADESH *** MAKE BEAUTIFUL GAMES AND APPS *** THANKS FOR VISITING ***</marquee>
+
+<div class="container">
+  <div class="titlebar"><span>automata_studios.exe</span><span>[ _ ] [ &#9633; ] [ X ]</span></div>
+
+  <center style="margin-top:20px; margin-bottom:12px;">
+    <!-- LOGO GOES HERE: replace src below with your logo file, e.g. "logo.png" or "logo.gif" -->
+    <img src="logo.png" alt="Automata Studios logo" width="120"
+      onerror="this.style.display='none'; document.getElementById('logo-fallback').style.display='flex';">
+    <div id="logo-fallback" style="display:none; width:120px; height:120px; margin:0 auto; border:3px ridge #fff; background:#000; color:#0f0; font-family:'Courier New',monospace; font-size:11px; align-items:center; justify-content:center; text-align:center;">
+      PUT YOUR<br>LOGO.PNG<br>HERE
+    </div>
+  </center>
+
+  <h1>AUTOMATA STUDIOS</h1>
+  <div class="subtitle">&#9734; SOLO APP &amp; GAME DEVELOPER &#9734; FROM DHAKA, BANGLADESH &#9734; PASSION FOR MAKING BEAUTIFUL GAMES AND APPS &#9734;</div>
+
+  <center>
+    <span class="spin" style="display:inline-block; font-size:40px;">&#128679;</span>
+    <span class="blink">UNDER CONSTRUCTION</span>
+    <span class="spin" style="display:inline-block; font-size:40px;">&#128679;</span>
+  </center>
+
+  <hr>
+
+  <div class="content">
+    <h2>&gt;&gt; MY APPS &lt;&lt;</h2>
+    <p>Click below to check out my apps on the Google Play Store!! All made with love by ONE guy. =)</p>
+
+    <table class="appstable">
+      <tr>
+        <th>ICON</th><th>APP NAME</th><th>RATING</th><th>GET IT</th>
+      </tr>
+      <tr>
+        <td>
+          <!-- LOGO: put "chakma-icon.png" next to index.html to use your own icon -->
+          <img class="app-icon-img" src="chakma-icon.png" alt="Learn Chakma With Me icon"
+            onerror="this.onerror=function(){this.style.display='none'; this.nextElementSibling.style.display='flex';}; this.src='https://play-lh.googleusercontent.com/ykvY_y4H2VE6RfH8WH4pHptAnROQ7eBddiqY5A-ZY931NISubfrnJAXYtrEEexZhT9yMHOQhoW_8a5vQQ4xV=s64';">
+          <div style="display:none; width:64px; height:64px; border:2px solid #000; background:#000; color:#0f0; font-family:'Courier New',monospace; font-size:9px; align-items:center; justify-content:center; text-align:center;">ICON<br>HERE</div>
+        </td>
+        <td><b>Learn Chakma With Me</b><br><span style="font-size:12px;">Learn the basics of Chakma Language easily with the new beautiful Bizu update!</span></td>
+        <td><span class="stars">&#9733;&#9733;&#9733;&#9733;&#9733;</span><br>4.6 (81 reviews)<br>5K+ downloads</td>
+        <td><a class="visit-btn" href="https://play.google.com/store/apps/details?id=com.AutomataStudios.LearnChakmaWithMe">&#9654; INSTALL</a></td>
+      </tr>
+      <tr>
+        <td>
+          <!-- LOGO: put "blockyboi-icon.png" next to index.html to use your own icon -->
+          <img class="app-icon-img" src="blockyboi-icon.png" alt="Blocky Boi icon"
+            onerror="this.onerror=function(){this.style.display='none'; this.nextElementSibling.style.display='flex';}; this.src='https://play-lh.googleusercontent.com/33m7Kn7fwMgvXUMwdZD5AXbJb6IZDeZxtxeJuJUN3eYc5YiJ0xV5WORt9WPA6NWnhfA=s94';">
+          <div style="display:none; width:64px; height:64px; border:2px solid #000; background:#000; color:#0f0; font-family:'Courier New',monospace; font-size:9px; align-items:center; justify-content:center; text-align:center;">ICON<br>HERE</div>
+        </td>
+        <td><b>Blocky Boi: Unique Puzzle Game</b><br><span style="font-size:12px;">A unique and addicting puzzle game. Give your brain a workout!</span></td>
+        <td><span class="stars">&#9733;&#9733;&#9733;&#9733;&#9733;</span><br>5.0 stars</td>
+        <td><a class="visit-btn" href="https://play.google.com/store/apps/details?id=com.AutomataStudios.blockyboi">&#9654; INSTALL</a></td>
+      </tr>
+      <tr>
+        <td>
+          <!-- LOGO: put "deenclock-icon.png" next to index.html to use your own icon -->
+          <img class="app-icon-img" src="deenclock-icon.png" alt="DeenClock icon"
+            onerror="this.onerror=function(){this.style.display='none'; this.nextElementSibling.style.display='flex';}; this.src='https://play-lh.googleusercontent.com/yYlO0xBi1wJGjssgCKq6fZSmEPGx3ESYFqw-S1tiD_rFxXXH9pCfjAWo8_5CPvsmJg=s94';">
+          <div style="display:none; width:64px; height:64px; border:2px solid #000; background:#000; color:#0f0; font-family:'Courier New',monospace; font-size:9px; align-items:center; justify-content:center; text-align:center;">ICON<br>HERE</div>
+        </td>
+        <td><b>DeenClock: Be A Better Mu'meen</b><br><span style="font-size:12px;">A helpful companion app for daily prayer and routine.</span></td>
+        <td>New app!</td>
+        <td><a class="visit-btn" href="https://play.google.com/store/apps/details?id=com.automatastudios.deenghori">&#9654; INSTALL</a></td>
+      </tr>
+    </table>
+
+    <center style="margin-top:14px;">
+      <a class="visit-btn" style="background:#FFFF00;" href="https://play.google.com/store/apps/dev?id=7177646858487969160">&#9734;&#9734;&#9734; SEE ALL MY APPS ON GOOGLE PLAY &#9734;&#9734;&#9734;</a>
+    </center>
+  </div>
+
+  <hr>
+
+  <div class="content">
+    <h2>&gt;&gt; ABOUT ME &lt;&lt;</h2>
+    <p>Hiya!! I'm the guy behind <b>Automata Studios</b> :-) I build apps and games all by myself, from idea to code to art to publishing. I live in Dhaka, Bangladesh and I LOVE making stuff that's fun and useful. Check my GitHub for more nerd stuff!</p>
+    <center>
+      <a class="visit-btn" href="https://github.com/pritomx">&#128190; VISIT MY GITHUB &#128190;</a>
+    </center>
+  </div>
+
+  <div class="badges">
+    <span class="badge">MADE WITH<br>NOTEPAD</span>
+    <span class="badge">100%<br>HAND CODED</span>
+    <span class="badge">NO<br>FRAMEWORKS</span>
+    <span class="badge">BEST VIEWED<br>800x600</span>
+  </div>
+
+  <div class="content guestbook">
+    &gt; Sign my guestbook!! <span class="blink">_</span><br>
+    &gt; "Great apps, 10/10!!" - a happy user<br>
+    &gt; "Learn Chakma app is so cool" - another visitor<br>
+    &gt; [ leave a message at <a class="gh" href="mailto:contact.automatastudios@gmail.com">contact.automatastudios@gmail.com</a> ]
+  </div>
+
+  <hr>
+
+  <footer>
+    <p>&copy; AUTOMATA STUDIOS &mdash; ALL RIGHTZ RESERVED &mdash; Dhaka, Bangladesh</p>
+    <p><a class="gh" href="https://github.com/pritomx">github.com/pritomx</a> &#12290; <a class="gh" href="https://play.google.com/store/apps/dev?id=7177646858487969160">Google Play</a></p>
+    <p>This page best viewed with cookies enabled and a 56k modem &#128222;&#128190;</p>
+  </footer>
+</div>
+
+<script>
+  document.getElementById('hits').textContent = String(Math.floor(Math.random()*9000)+1000).padStart(6,'0');
+</script>
+
+</body>
+</html>
