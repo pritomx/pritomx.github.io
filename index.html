@@ -12,6 +12,29 @@
     font-family: "Comic Sans MS", "Comic Sans", cursive;
     margin:0;
     padding:20px;
+    position:relative;
+  }
+  body::before{
+    content:"";
+    position:fixed;
+    top:0; left:0; width:100%; height:100%;
+    pointer-events:none;
+    background-image:
+      radial-gradient(2px 2px at 10% 20%, #fff 100%, transparent 0),
+      radial-gradient(2px 2px at 30% 70%, #fff 100%, transparent 0),
+      radial-gradient(1.5px 1.5px at 50% 15%, #fff 100%, transparent 0),
+      radial-gradient(2px 2px at 70% 40%, #fff 100%, transparent 0),
+      radial-gradient(1.5px 1.5px at 85% 80%, #fff 100%, transparent 0),
+      radial-gradient(2px 2px at 90% 25%, #fff 100%, transparent 0),
+      radial-gradient(1.5px 1.5px at 20% 90%, #fff 100%, transparent 0),
+      radial-gradient(2px 2px at 60% 60%, #fff 100%, transparent 0);
+    animation: twinkle 2s ease-in-out infinite alternate;
+    z-index:0;
+  }
+  .container{ position:relative; z-index:1; }
+  @keyframes twinkle{
+    from{ opacity:0.3; }
+    to{ opacity:1; }
   }
   marquee{
     background:#000;
@@ -27,6 +50,18 @@
     background:#C0C0C0;
     border:6px outset #fff;
     padding:14px;
+    container-type:inline-size;
+    box-shadow: 0 0 0 4px #FF0000;
+    animation: border-cycle 4s linear infinite;
+  }
+  @keyframes border-cycle{
+    0%{ box-shadow: 0 0 0 4px #FF0000; }
+    16%{ box-shadow: 0 0 0 4px #FF7F00; }
+    33%{ box-shadow: 0 0 0 4px #FFFF00; }
+    50%{ box-shadow: 0 0 0 4px #00FF00; }
+    66%{ box-shadow: 0 0 0 4px #00FFFF; }
+    83%{ box-shadow: 0 0 0 4px #FF00FF; }
+    100%{ box-shadow: 0 0 0 4px #FF0000; }
   }
   .titlebar{
     background:linear-gradient(90deg,#000080,#1084d0);
@@ -40,25 +75,55 @@
   }
   h1{
     text-align:center;
-    color:#FF00FF;
-    text-shadow: 2px 2px 0 #000, -1px -1px 0 #00FFFF;
+    background: linear-gradient(90deg, #FF0000, #FF7F00, #FFFF00, #00FF00, #00FFFF, #0000FF, #FF00FF, #FF0000);
+    background-size: 400% 100%;
+    -webkit-background-clip: text;
+    background-clip: text;
+    color: transparent;
+    animation: rainbow-shift 3s linear infinite;
+    text-shadow: 2px 2px 0 rgba(0,0,0,0.35);
     font-size:2.6em;
     letter-spacing:2px;
     margin:16px 0 4px;
+    font-weight:bold;
+  }
+  @keyframes rainbow-shift{
+    0%{ background-position: 0% 50%; }
+    100%{ background-position: 400% 50%; }
+  }
+  .rainbow-text{
+    background: linear-gradient(90deg, #FF0000, #FF7F00, #FFFF00, #00FF00, #00FFFF, #0000FF, #FF00FF, #FF0000);
+    background-size: 400% 100%;
+    -webkit-background-clip: text;
+    background-clip: text;
+    color: transparent;
+    animation: rainbow-shift 2.5s linear infinite;
+    font-weight:bold;
   }
   .subtitle{
     text-align:center;
     color:#000;
-    background:#FFFF00;
     border:3px dashed #FF0000;
     padding:8px;
     font-weight:bold;
     margin-bottom:16px;
+    animation: subtitle-flash 1.2s steps(1) infinite;
+  }
+  @keyframes subtitle-flash{
+    0%{ background:#FFFF00; }
+    50%{ background:#00FFFF; }
+    100%{ background:#FFFF00; }
   }
   hr{
     border:none;
     height:6px;
     background:repeating-linear-gradient(90deg,#FF0000 0 10px,#FFFF00 10px 20px,#00FF00 20px 30px,#00FFFF 30px 40px,#FF00FF 40px 50px);
+    background-size: 200% 100%;
+    animation: hr-scroll 1.5s linear infinite;
+  }
+  @keyframes hr-scroll{
+    from{ background-position: 0 0; }
+    to{ background-position: -50px 0; }
   }
   .content{
     background:#fff;
@@ -68,12 +133,19 @@
     margin:14px 0;
   }
   .content h2{
-    color:#800080;
     font-size:1.4em;
     border-bottom:3px double #FF00FF;
     display:inline-block;
+    animation: h2-color-cycle 3s linear infinite;
   }
-  .blink{ animation: blinker 1s step-start infinite; color:#00FFFF; font-weight:bold; font-size:clamp(1.1em, 5vw, 1.8em); text-shadow:2px 2px 0 #FF00FF;}
+  @keyframes h2-color-cycle{
+    0%{ color:#800080; }
+    25%{ color:#FF0000; }
+    50%{ color:#0000FF; }
+    75%{ color:#008000; }
+    100%{ color:#800080; }
+  }
+  .blink{ animation: blinker 1s step-start infinite; color:#00FFFF; font-weight:bold; font-size:clamp(1.1em, 4cqi, 1.8em); text-shadow:2px 2px 0 #FF00FF;}
   @keyframes blinker{ 50%{opacity:0;} }
 
   table.appstable{
@@ -117,15 +189,6 @@
     border:3px inset #fff;
   }
 
-  .webring{
-    text-align:center;
-    background:#FFD700;
-    border:3px solid #000;
-    padding:10px;
-    margin:14px 0;
-    font-weight:bold;
-  }
-
   .badges{
     display:flex;
     flex-wrap:wrap;
@@ -141,6 +204,14 @@
     font-size:11px;
     padding:4px 8px;
     font-weight:bold;
+    display:inline-block;
+    animation: badge-wiggle 0.6s ease-in-out infinite alternate;
+  }
+  .badge:nth-child(2n){ animation-delay: 0.2s; }
+  .badge:nth-child(3n){ animation-delay: 0.4s; }
+  @keyframes badge-wiggle{
+    from{ transform: rotate(-3deg); }
+    to{ transform: rotate(3deg); }
   }
 
   footer{
@@ -148,15 +219,6 @@
     font-size:12px;
     color:#fff;
     margin-top:20px;
-  }
-  .hitcounter{
-    background:#000;
-    color:#FFFF00;
-    font-family:"Courier New",monospace;
-    padding:4px 8px;
-    display:inline-block;
-    letter-spacing:3px;
-    border:2px solid #fff;
   }
   a.gh { color:#00FFFF; }
   center img.spin, center span.spin{
@@ -166,12 +228,33 @@
     line-height:1em;
     text-align:center;
   }
+
+  @media (max-width:600px){
+    body{ padding:8px; }
+    h1{ font-size:1.8em; }
+    marquee{ font-size:14px; }
+    table.appstable, table.appstable tbody, table.appstable tr, table.appstable td, table.appstable th{
+      display:block;
+      width:100%;
+      box-sizing:border-box;
+    }
+    table.appstable tr{ margin-bottom:10px; border:3px groove #999; }
+    table.appstable td{ border:none; border-top:1px solid #ccc; }
+    table.appstable td:first-child{ border-top:none; }
+    table.appstable th{ display:none; }
+    .app-icon-img{ width:48px; height:48px; }
+  }
+
+  @supports not (font-size: 1cqi){
+    .blink{ font-size:clamp(1.1em, 5vw, 1.8em); }
+  }
   @keyframes spin{ from{transform:rotate(0deg);} to{transform:rotate(360deg);} }
 </style>
 </head>
 <body>
 
 <marquee behavior="scroll" direction="left">*** WELCOME TO THE OFFICIAL AUTOMATA STUDIOS HOMEPAGE *** BEST VIEWED IN NETSCAPE NAVIGATOR *** SOLO DEVELOPER FROM DHAKA, BANGLADESH *** MAKE BEAUTIFUL GAMES AND APPS *** THANKS FOR VISITING ***</marquee>
+<marquee behavior="scroll" direction="right" style="background:#000; border:4px ridge #C0C0C0;"><span class="rainbow-text">★ ☆ NEW APPS COMING SOON ☆ ★ DON'T FORGET TO SIGN THE GUESTBOOK ★ ☆ TELL YOUR FRIENDS ☆ ★</span></marquee>
 
 <div class="container">
   <div class="titlebar"><span>automata_studios.exe</span><span>[ _ ] [ &#9633; ] [ X ]</span></div>
@@ -192,6 +275,9 @@
 <span class="spin" style="display:inline-block; font-size:40px;">⭐</span>
 <span class="blink">STRIVING FOR PERFECTION</span>
 <span class="spin" style="display:inline-block; font-size:40px;">⭐</span>
+<br><br>
+<img src="https://commons.wikimedia.org/wiki/Special:FilePath/Under_construction_graphic.gif" alt="under construction" width="120"
+  onerror="this.style.display='none';">
 </center>
 
   <hr>
@@ -259,6 +345,7 @@
     <span class="badge">100%<br>HAND CODED</span>
     <span class="badge">NO<br>FRAMEWORKS</span>
     <span class="badge">BEST VIEWED<br>800x600</span>
+    <span class="badge">NO<br>COOKIES TRACKED</span>
   </div>
 
   <div class="content guestbook">
@@ -277,11 +364,93 @@
     <p>&copy; AUTOMATA STUDIOS &mdash; ALL RIGHTZ RESERVED &mdash; Dhaka, Bangladesh</p>
     <p><a class="gh" href="https://github.com/pritomx">github.com/pritomx</a> &#12290; <a class="gh" href="https://play.google.com/store/apps/dev?id=7177646858487969160">Google Play</a></p>
     <p>This page best viewed with cookies enabled and a 56k modem &#128222;&#128190;</p>
+    <p style="font-size:11px;">Add me on AIM: automatastudios2007 &#128172; &mdash; My away message is always "brb making apps"</p>
   </footer>
 </div>
 
+<canvas id="confetti-canvas" style="position:fixed; top:0; left:0; width:100%; height:100%; pointer-events:none; z-index:9999;"></canvas>
+
 <script>
-  document.getElementById('hits').textContent = String(Math.floor(Math.random()*9000)+1000).padStart(6,'0');
+  // --- Confetti burst on load, classic 2000s "congrats you visited my site" gimmick ---
+  (function(){
+    const canvas = document.getElementById('confetti-canvas');
+    const ctx = canvas.getContext('2d');
+    function resize(){ canvas.width = window.innerWidth; canvas.height = window.innerHeight; }
+    resize();
+    window.addEventListener('resize', resize);
+
+    const colors = ['#FF0000','#FFFF00','#00FF00','#00FFFF','#FF00FF','#FFA500'];
+    let pieces = [];
+    function spawnBurst(count){
+      for(let i=0;i<count;i++){
+        pieces.push({
+          x: Math.random()*canvas.width,
+          y: -20 - Math.random()*canvas.height*0.3,
+          size: 4+Math.random()*6,
+          color: colors[Math.floor(Math.random()*colors.length)],
+          speedY: 2+Math.random()*3,
+          speedX: (Math.random()-0.5)*2,
+          rotation: Math.random()*360,
+          rotSpeed: (Math.random()-0.5)*10
+        });
+      }
+    }
+    spawnBurst(120);
+
+    let running = true;
+    function animate(){
+      if(!running) return;
+      ctx.clearRect(0,0,canvas.width,canvas.height);
+      pieces.forEach(p=>{
+        p.y += p.speedY;
+        p.x += p.speedX;
+        p.rotation += p.rotSpeed;
+        ctx.save();
+        ctx.translate(p.x,p.y);
+        ctx.rotate(p.rotation*Math.PI/180);
+        ctx.fillStyle = p.color;
+        ctx.fillRect(-p.size/2,-p.size/2,p.size,p.size*0.6);
+        ctx.restore();
+      });
+      pieces = pieces.filter(p=>p.y < canvas.height+30);
+      requestAnimationFrame(animate);
+      if(pieces.length===0) running=false;
+    }
+    animate();
+
+    // Re-trigger a smaller burst on click, because why not
+    document.addEventListener('click', function(){
+      spawnBurst(30);
+      if(!running){ running=true; animate(); }
+    });
+  })();
+
+  // --- Sparkly cursor trail, classic Geocities/Neopets gimmick ---
+  (function(){
+    const sparkles = ['&#10022;','&#10038;','&#9733;','&#10024;'];
+    let last = 0;
+    document.addEventListener('mousemove', function(e){
+      const now = Date.now();
+      if(now - last < 60) return; // throttle
+      last = now;
+      const s = document.createElement('span');
+      s.innerHTML = sparkles[Math.floor(Math.random()*sparkles.length)];
+      s.style.position='fixed';
+      s.style.left = e.clientX+'px';
+      s.style.top = e.clientY+'px';
+      s.style.color = ['#FF00FF','#00FFFF','#FFFF00','#00FF00'][Math.floor(Math.random()*4)];
+      s.style.fontSize = (12+Math.random()*10)+'px';
+      s.style.pointerEvents='none';
+      s.style.zIndex = 9998;
+      s.style.transition = 'transform 0.8s ease-out, opacity 0.8s ease-out';
+      document.body.appendChild(s);
+      requestAnimationFrame(()=>{
+        s.style.transform = `translateY(${20+Math.random()*20}px) rotate(${(Math.random()-0.5)*180}deg)`;
+        s.style.opacity = '0';
+      });
+      setTimeout(()=> s.remove(), 850);
+    });
+  })();
 </script>
 
 </body>
