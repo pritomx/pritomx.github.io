@@ -73,7 +73,7 @@
     border-bottom:3px double #FF00FF;
     display:inline-block;
   }
-  .blink{ animation: blinker 1s step-start infinite; color:red; font-weight:bold;}
+  .blink{ animation: blinker 1s step-start infinite; color:#00FFFF; font-weight:bold; font-size:clamp(1.1em, 5vw, 1.8em); text-shadow:2px 2px 0 #FF00FF;}
   @keyframes blinker{ 50%{opacity:0;} }
 
   table.appstable{
@@ -159,7 +159,13 @@
     border:2px solid #fff;
   }
   a.gh { color:#00FFFF; }
-  center img.spin, center span.spin{ animation: spin 3s linear infinite; }
+  center img.spin, center span.spin{
+    animation: spin 3s linear infinite;
+    transform-origin:50% 50%;
+    width:1em; height:1em;
+    line-height:1em;
+    text-align:center;
+  }
   @keyframes spin{ from{transform:rotate(0deg);} to{transform:rotate(360deg);} }
 </style>
 </head>
@@ -182,11 +188,11 @@
   <h1>AUTOMATA STUDIOS</h1>
   <div class="subtitle">&#9734; SOLO APP &amp; GAME DEVELOPER &#9734; FROM DHAKA, BANGLADESH &#9734; PASSION FOR MAKING BEAUTIFUL GAMES AND APPS &#9734;</div>
 
-  <center>
-    <span class="spin" style="display:inline-block; font-size:40px;">&#128679;</span>
-    <span class="blink">UNDER CONSTRUCTION</span>
-    <span class="spin" style="display:inline-block; font-size:40px;">&#128679;</span>
-  </center>
+<center>
+<span class="spin" style="display:inline-block; font-size:40px;">⭐</span>
+<span class="blink">STRIVING FOR PERFECTION</span>
+<span class="spin" style="display:inline-block; font-size:40px;">⭐</span>
+</center>
 
   <hr>
 
@@ -259,7 +265,10 @@
     &gt; Sign my guestbook!! <span class="blink">_</span><br>
     &gt; "Great apps, 10/10!!" - a happy user<br>
     &gt; "Learn Chakma app is so cool" - another visitor<br>
-    &gt; [ leave a message at <a class="gh" href="mailto:contact.automatastudios@gmail.com">contact.automatastudios@gmail.com</a> ]
+    &gt; "Blocky Boi ate my whole weekend, 5 stars" - sleepy gamer<br>
+    &gt; "finally an app that gets my prayer times right" - DeenClock fan<br>
+    &gt; "ur website is so cool i miss the 2000s" - nostalgic nerd<br>
+    &gt; wanna tell your story or share a message? email me at <a class="gh" href="mailto:contact.automatastudios@gmail.com">contact.automatastudios@gmail.com</a> !!
   </div>
 
   <hr>
