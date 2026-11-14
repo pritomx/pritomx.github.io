@@ -1,0 +1,10 @@
+[{
+  "relation": ["delegate_permission/common.handle_all_urls"],
+  "target": {
+    "namespace": "android_app",
+    "package_name": "com.automatastudios.chokka",
+    "sha256_cert_fingerprints": [
+      "6C:6B:AA:B1:E2:1F:F4:9E:23:AF:F0:FB:1B:E1:19:D3:15:E3:9E:5A:C0:3B:01:18:2E:A8:8C:AC:DA:BA:A6:10"
+    ]
+  }
+}]

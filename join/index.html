@@ -1,0 +1,48 @@
+<!doctype html>
+<html lang="bn">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Bangla Ludu – Join my room</title>
+<meta property="og:title" content="Play Bangla Ludu with me! / বাংলার লুডুতে আমার সাথে খেলো!">
+<meta property="og:description" content="Tap to join my private room.">
+<style>
+  :root { --bg:#14123a; --card:#221f5c; --gold:#ffcc40; --text:#fff; --muted:#c9c6f0; }
+  * { box-sizing:border-box; }
+  body { margin:0; min-height:100vh; display:flex; align-items:center; justify-content:center; background:radial-gradient(circle at 50% 20%, #2e2a7a, var(--bg)); color:var(--text); font-family:system-ui, "Noto Sans Bengali", sans-serif; padding:16px; }
+  .card { width:100%; max-width:380px; background:var(--card); border:2px solid var(--gold); border-radius:22px; padding:28px 22px; text-align:center; box-shadow:0 0 40px rgba(255,204,64,.25); }
+  h1 { font-size:22px; margin:0 0 6px; }
+  p { color:var(--muted); margin:6px 0; }
+  .code { font-size:44px; letter-spacing:8px; font-weight:800; color:var(--gold); margin:16px 0; }
+  a.btn { display:block; margin:12px 0 0; padding:15px; border-radius:14px; font-size:18px; font-weight:700; text-decoration:none; }
+  .open { background:#2fbf4f; color:#fff; }
+  .store { background:#fff; color:#222; }
+  small { display:block; margin-top:16px; color:var(--muted); }
+</style>
+</head>
+<body>
+<div class="card">
+  <h1>Bangla Ludu</h1>
+  <p>Play with me! · আমার সাথে খেলো!</p>
+  <div class="code" id="code">------</div>
+  <p>Room code · রুম কোড</p>
+  <a class="btn open" id="open" href="#">Open in game · গেমে খোলো</a>
+  <a class="btn store" id="store" href="#">Get it on Google Play · ডাউনলোড</a>
+  <small>Already installed? Tap "Open in game". If it doesn't open, start the game, tap Private Room → Join and type the code.</small>
+</div>
+<script>
+  var pkg = "com.automatastudios.chokka";
+  var m = /[?&]c=(\d{6,8})/.exec(location.search);
+  var code = m ? m[1] : "";
+  var store = "https://play.google.com/store/apps/details?id=" + pkg + (code ? "&referrer=" + encodeURIComponent("room=" + code) : "");
+  var intent = "intent://join?c=" + code + "#Intent;scheme=banglaludu;package=" + pkg +
+               ";S.browser_fallback_url=" + encodeURIComponent(store) + ";end";
+  document.getElementById("code").textContent = code || "------";
+  document.getElementById("store").href = store;
+  var android = /android/i.test(navigator.userAgent);
+  document.getElementById("open").href = android ? intent : "banglaludu://join?c=" + code;
+  // Android: try the game at once (Chrome opens the Play Store itself when the game is not installed)
+  if (android && code) setTimeout(function () { location.href = intent; }, 300);
+</script>
+</body>
+</html>
