@@ -3,491 +3,532 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>~*~ AUTOMATA STUDIOS ~*~ Official HomePage ~*~</title>
+<title>AUTOMATA STUDIOS - INSERT COIN</title>
+<meta name="description" content="Automata Studios: solo app and game developer from Dhaka, Bangladesh.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Press+Start+2P&family=VT323&family=Hind+Siliguri:wght@500;700&display=swap" rel="stylesheet">
 <style>
+  :root{
+    --bg:#07000f;
+    --cab:#12002a;
+    --pink:#ff2a6d;
+    --cyan:#05d9e8;
+    --yellow:#f9f871;
+    --green:#39ff14;
+    --purple:#b026ff;
+    --dim:#7a6a9a;
+    --pixel:"Press Start 2P","Hind Siliguri",monospace;
+    --term:"VT323","Hind Siliguri",monospace;
+  }
+  *{ box-sizing:border-box; }
+  html,body{ margin:0; }
   body{
-    background:#000080;
-    background-image: repeating-linear-gradient(45deg, #000080 0 2px, #0000a0 2px 4px);
-    color:#00FF00;
-    font-family: "Comic Sans MS", "Comic Sans", cursive;
-    margin:0;
-    padding:20px;
-    position:relative;
+    background:var(--bg);
+    color:#e8e0ff;
+    font-family:var(--term);
+    font-size:22px;
+    line-height:1.25;
+    overflow-x:hidden;
+    cursor:crosshair;
   }
-  body::before{
-    content:"";
-    position:fixed;
-    top:0; left:0; width:100%; height:100%;
-    pointer-events:none;
-    background-image:
-      radial-gradient(2px 2px at 10% 20%, #fff 100%, transparent 0),
-      radial-gradient(2px 2px at 30% 70%, #fff 100%, transparent 0),
-      radial-gradient(1.5px 1.5px at 50% 15%, #fff 100%, transparent 0),
-      radial-gradient(2px 2px at 70% 40%, #fff 100%, transparent 0),
-      radial-gradient(1.5px 1.5px at 85% 80%, #fff 100%, transparent 0),
-      radial-gradient(2px 2px at 90% 25%, #fff 100%, transparent 0),
-      radial-gradient(1.5px 1.5px at 20% 90%, #fff 100%, transparent 0),
-      radial-gradient(2px 2px at 60% 60%, #fff 100%, transparent 0);
-    animation: twinkle 2s ease-in-out infinite alternate;
-    z-index:0;
+
+  /* starfield + CRT overlays */
+  #stars{ position:fixed; inset:0; width:100%; height:100%; z-index:0; }
+  .crt{
+    position:fixed; inset:0; pointer-events:none; z-index:50;
+    background:
+      repeating-linear-gradient(0deg, rgba(0,0,0,.28) 0 1px, transparent 1px 3px),
+      radial-gradient(ellipse at center, transparent 55%, rgba(0,0,0,.65) 100%);
+    animation:flicker .12s infinite;
   }
-  .container{ position:relative; z-index:1; }
-  @keyframes twinkle{
-    from{ opacity:0.3; }
-    to{ opacity:1; }
+  @keyframes flicker{ 0%{opacity:.92} 50%{opacity:1} 100%{opacity:.95} }
+
+  /* LED ticker */
+  .ticker{
+    position:relative; z-index:2;
+    background:#000; border-bottom:3px solid var(--pink);
+    overflow:hidden; white-space:nowrap;
+    font-family:var(--pixel); font-size:12px; color:var(--yellow);
+    padding:10px 0;
+    text-shadow:0 0 6px var(--yellow);
   }
-  marquee{
-    background:#000;
-    color:#FFFF00;
-    font-weight:bold;
-    font-size:20px;
-    border:4px ridge #C0C0C0;
-    padding:6px;
+  .ticker span{ display:inline-block; padding-left:100%; animation:tick 28s linear infinite; }
+  @keyframes tick{ to{ transform:translateX(-100%); } }
+
+  /* cabinet */
+  .cabinet{
+    position:relative; z-index:2;
+    max-width:900px; margin:28px auto; padding:0 16px;
   }
-  .container{
-    max-width:820px;
-    margin:20px auto;
-    background:#C0C0C0;
-    border:6px outset #fff;
-    padding:14px;
-    container-type:inline-size;
-    box-shadow: 0 0 0 4px #FF0000;
-    animation: border-cycle 4s linear infinite;
+  .screen{
+    background:linear-gradient(180deg, rgba(18,0,42,.92), rgba(7,0,15,.92));
+    border:4px solid var(--cyan);
+    border-radius:18px;
+    padding:22px;
+    box-shadow:
+      0 0 0 4px #000,
+      0 0 0 8px var(--pink),
+      0 0 40px rgba(255,42,109,.55),
+      inset 0 0 60px rgba(5,217,232,.18);
   }
-  @keyframes border-cycle{
-    0%{ box-shadow: 0 0 0 4px #FF0000; }
-    16%{ box-shadow: 0 0 0 4px #FF7F00; }
-    33%{ box-shadow: 0 0 0 4px #FFFF00; }
-    50%{ box-shadow: 0 0 0 4px #00FF00; }
-    66%{ box-shadow: 0 0 0 4px #00FFFF; }
-    83%{ box-shadow: 0 0 0 4px #FF00FF; }
-    100%{ box-shadow: 0 0 0 4px #FF0000; }
+
+  /* HUD bar */
+  .hud{
+    display:flex; justify-content:space-between; gap:10px; flex-wrap:wrap;
+    font-family:var(--pixel); font-size:11px;
+    margin-bottom:18px;
   }
-  .titlebar{
-    background:linear-gradient(90deg,#000080,#1084d0);
-    color:#fff;
-    font-weight:bold;
-    padding:6px 10px;
-    font-family:Tahoma, sans-serif;
-    font-size:14px;
-    display:flex;
-    justify-content:space-between;
-  }
+  .hud div span{ display:block; margin-top:6px; color:#fff; }
+  .hud .p1{ color:var(--pink); }
+  .hud .hi{ color:var(--yellow); text-align:center; }
+  .hud .cr{ color:var(--green); text-align:right; }
+
+  /* title */
+  .logo{ display:block; margin:6px auto 14px; width:110px; image-rendering:pixelated;
+    filter:drop-shadow(0 0 10px var(--cyan)); animation:bob 2.4s ease-in-out infinite; }
+  @keyframes bob{ 50%{ transform:translateY(-6px); } }
   h1{
-    text-align:center;
-    background: linear-gradient(90deg, #FF0000, #FF7F00, #FFFF00, #00FF00, #00FFFF, #0000FF, #FF00FF, #FF0000);
-    background-size: 400% 100%;
-    -webkit-background-clip: text;
-    background-clip: text;
-    color: transparent;
-    animation: rainbow-shift 3s linear infinite;
-    text-shadow: 2px 2px 0 rgba(0,0,0,0.35);
-    font-size:2.6em;
+    font-family:var(--pixel);
+    font-size:clamp(22px, 6vw, 46px);
+    text-align:center; margin:0; line-height:1.3;
+    color:var(--yellow);
+    text-shadow:3px 3px 0 var(--pink), 6px 6px 0 var(--purple), 0 0 24px rgba(249,248,113,.6);
     letter-spacing:2px;
-    margin:16px 0 4px;
-    font-weight:bold;
   }
-  @keyframes rainbow-shift{
-    0%{ background-position: 0% 50%; }
-    100%{ background-position: 400% 50%; }
+  .glitch{ animation:glitch 4s steps(1) infinite; }
+  @keyframes glitch{
+    0%,92%,100%{ transform:none; }
+    93%{ transform:translate(3px,-2px) skewX(8deg); text-shadow:-3px 0 var(--cyan), 3px 0 var(--pink); }
+    95%{ transform:translate(-3px,2px); }
+    97%{ transform:translate(2px,0) skewX(-6deg); }
   }
-  .rainbow-text{
-    background: linear-gradient(90deg, #FF0000, #FF7F00, #FFFF00, #00FF00, #00FFFF, #0000FF, #FF00FF, #FF0000);
-    background-size: 400% 100%;
-    -webkit-background-clip: text;
-    background-clip: text;
-    color: transparent;
-    animation: rainbow-shift 2.5s linear infinite;
-    font-weight:bold;
+  .tagline{
+    text-align:center; margin:16px 0 6px;
+    font-size:24px; color:var(--cyan); text-shadow:0 0 8px var(--cyan);
   }
-  .subtitle{
-    text-align:center;
-    color:#000;
-    border:3px dashed #FF0000;
-    padding:8px;
-    font-weight:bold;
-    margin-bottom:16px;
-    animation: subtitle-flash 1.2s steps(1) infinite;
+  .press{
+    text-align:center; font-family:var(--pixel); font-size:14px;
+    color:#fff; margin:18px 0 6px;
+    animation:blink 1s steps(1) infinite;
   }
-  @keyframes subtitle-flash{
-    0%{ background:#FFFF00; }
-    50%{ background:#00FFFF; }
-    100%{ background:#FFFF00; }
-  }
-  hr{
-    border:none;
-    height:6px;
-    background:repeating-linear-gradient(90deg,#FF0000 0 10px,#FFFF00 10px 20px,#00FF00 20px 30px,#00FFFF 30px 40px,#FF00FF 40px 50px);
-    background-size: 200% 100%;
-    animation: hr-scroll 1.5s linear infinite;
-  }
-  @keyframes hr-scroll{
-    from{ background-position: 0 0; }
-    to{ background-position: -50px 0; }
-  }
-  .content{
-    background:#fff;
-    color:#000;
-    border:4px inset #808080;
-    padding:16px;
-    margin:14px 0;
-  }
-  .content h2{
-    font-size:1.4em;
-    border-bottom:3px double #FF00FF;
-    display:inline-block;
-    animation: h2-color-cycle 3s linear infinite;
-  }
-  @keyframes h2-color-cycle{
-    0%{ color:#800080; }
-    25%{ color:#FF0000; }
-    50%{ color:#0000FF; }
-    75%{ color:#008000; }
-    100%{ color:#800080; }
-  }
-  .blink{ animation: blinker 1s step-start infinite; color:#00FFFF; font-weight:bold; font-size:clamp(1.1em, 4cqi, 1.8em); text-shadow:2px 2px 0 #FF00FF;}
-  @keyframes blinker{ 50%{opacity:0;} }
+  @keyframes blink{ 50%{ opacity:0; } }
 
-  table.appstable{
-    width:100%;
-    border-collapse:collapse;
-    background:#fff;
+  /* section headers */
+  .stage{ margin-top:34px; }
+  .stage h2{
+    font-family:var(--pixel); font-size:clamp(13px, 3.4vw, 18px);
+    color:var(--green); text-shadow:0 0 10px var(--green);
+    margin:0 0 6px; text-align:center;
   }
-  table.appstable td, table.appstable th{
-    border:3px groove #999;
-    padding:10px;
-    vertical-align:top;
+  .stage .sub{ text-align:center; color:var(--dim); margin:0 0 18px; }
+  .divider{
+    height:8px; margin:30px 0 0;
+    background:repeating-linear-gradient(90deg, var(--pink) 0 8px, transparent 8px 16px);
+    opacity:.8; animation:march .6s linear infinite;
   }
-  table.appstable th{
-    background:#000080;
-    color:#FFFF00;
-    font-family:Tahoma,sans-serif;
-  }
-  .app-icon-img{
-    width:64px; height:64px;
-    image-rendering:pixelated;
-    border:2px solid #000;
-  }
-  .stars{ color:#FF8C00; font-weight:bold; }
-  .visit-btn{
-    display:inline-block;
-    background:#00FF00;
-    border:3px outset #fff;
-    color:#000;
-    font-weight:bold;
-    padding:6px 14px;
-    text-decoration:none;
-    font-family:Tahoma,sans-serif;
-  }
-  .visit-btn:active{ border-style:inset; }
+  @keyframes march{ to{ background-position:16px 0; } }
 
-  .guestbook{
-    background:#000;
-    color:#0f0;
-    font-family:"Courier New", monospace;
-    padding:12px;
-    border:3px inset #fff;
+  /* game select grid */
+  .grid{
+    display:grid; gap:16px;
+    grid-template-columns:repeat(auto-fill, minmax(250px, 1fr));
   }
-
-  .badges{
-    display:flex;
-    flex-wrap:wrap;
-    gap:8px;
-    justify-content:center;
-    margin:14px 0;
+  .cart{
+    position:relative;
+    background:#0d0020;
+    border:3px solid var(--purple);
+    padding:14px;
+    display:flex; flex-direction:column; gap:10px;
+    transition:transform .12s, border-color .12s, box-shadow .12s;
   }
-  .badge{
-    background:#000;
-    color:#0f0;
-    border:2px solid #fff;
-    font-family:Tahoma, sans-serif;
-    font-size:11px;
-    padding:4px 8px;
-    font-weight:bold;
-    display:inline-block;
-    animation: badge-wiggle 0.6s ease-in-out infinite alternate;
+  .cart::before{ /* pixel notch corners */
+    content:""; position:absolute; inset:-3px;
+    background:
+      linear-gradient(var(--bg),var(--bg)) top left/8px 8px no-repeat,
+      linear-gradient(var(--bg),var(--bg)) top right/8px 8px no-repeat,
+      linear-gradient(var(--bg),var(--bg)) bottom left/8px 8px no-repeat,
+      linear-gradient(var(--bg),var(--bg)) bottom right/8px 8px no-repeat;
+    pointer-events:none;
   }
-  .badge:nth-child(2n){ animation-delay: 0.2s; }
-  .badge:nth-child(3n){ animation-delay: 0.4s; }
-  @keyframes badge-wiggle{
-    from{ transform: rotate(-3deg); }
-    to{ transform: rotate(3deg); }
+  .cart:hover{
+    transform:translate(-3px,-3px);
+    border-color:var(--cyan);
+    box-shadow:6px 6px 0 var(--pink), 0 0 22px rgba(5,217,232,.5);
   }
-
-  footer{
-    text-align:center;
-    font-size:12px;
+  .cart:hover .sel{ opacity:1; }
+  .sel{
+    position:absolute; top:10px; right:12px; opacity:0;
+    font-family:var(--pixel); font-size:10px; color:var(--yellow);
+    animation:blink .6s steps(1) infinite;
+  }
+  .cart .top{ display:flex; gap:12px; align-items:center; }
+  .cart img, .cart .noicon{
+    width:64px; height:64px; flex:none;
+    border:3px solid #000; outline:2px solid var(--cyan);
+    image-rendering:pixelated; background:#000;
+  }
+  .cart .noicon{ display:flex; align-items:center; justify-content:center; font-size:38px; }
+  .cart h3{
+    margin:0; font-family:var(--pixel); font-size:11px; line-height:1.6;
     color:#fff;
-    margin-top:20px;
   }
-  a.gh { color:#00FFFF; }
-  center img.spin, center span.spin{
-    animation: spin 3s linear infinite;
-    transform-origin:50% 50%;
-    width:1em; height:1em;
-    line-height:1em;
-    text-align:center;
+  .cart h3 .bn{ font-family:"Hind Siliguri",sans-serif; font-size:17px; font-weight:700; display:block; line-height:1.2; }
+  .cart p{ margin:0; color:#cfc4ee; font-size:20px; flex:1; }
+  .meta{ display:flex; justify-content:space-between; align-items:center; gap:8px; flex-wrap:wrap; }
+  .stars{ color:var(--yellow); letter-spacing:2px; font-size:20px; text-shadow:0 0 6px var(--yellow); }
+  .stat{ color:var(--dim); font-size:18px; }
+  .new{
+    font-family:var(--pixel); font-size:8px; color:#000; background:var(--green);
+    padding:4px 6px; margin-left:6px; vertical-align:middle;
+    animation:blink .8s steps(1) infinite;
   }
+  .btn{
+    display:inline-block; text-decoration:none;
+    font-family:var(--pixel); font-size:11px;
+    color:#000; background:var(--cyan);
+    padding:10px 14px;
+    box-shadow:4px 4px 0 var(--pink);
+    transition:transform .08s, box-shadow .08s;
+  }
+  .btn:hover{ background:var(--yellow); }
+  .btn:active{ transform:translate(4px,4px); box-shadow:0 0 0 var(--pink); }
+  .cart .btn{ text-align:center; }
+
+  .cart.locked{ border-style:dashed; border-color:var(--dim); }
+  .cart.locked .noicon{ outline-color:var(--dim); }
+  .cart.locked .btn{ background:#333; color:var(--dim); box-shadow:4px 4px 0 #000; cursor:not-allowed; }
+  .cart.locked:hover{ border-color:var(--yellow); }
+
+  .center{ text-align:center; margin-top:22px; }
+  .btn.big{ font-size:12px; padding:14px 18px; background:var(--yellow); }
+  .btn.big:hover{ background:var(--green); }
+
+  /* player profile */
+  .profile{
+    display:flex; gap:18px; align-items:flex-start;
+    border:3px solid var(--cyan); padding:16px; background:#0a0018;
+  }
+  .avatar{
+    flex:none; width:84px; height:84px;
+    display:flex; align-items:center; justify-content:center;
+    font-size:52px; background:#000; border:3px solid var(--pink);
+  }
+  .profile dl{ margin:0 0 10px; display:grid; grid-template-columns:auto 1fr; gap:2px 14px; }
+  .profile dt{ font-family:var(--pixel); font-size:10px; color:var(--pink); padding-top:6px; }
+  .profile dd{ margin:0; color:#fff; }
+  .profile p{ margin:8px 0 14px; color:#cfc4ee; }
+  .bar{ height:12px; background:#222; border:2px solid #fff; width:180px; display:inline-block; vertical-align:middle; }
+  .bar i{ display:block; height:100%; width:100%; background:repeating-linear-gradient(90deg,var(--green) 0 10px,#1fae0a 10px 12px); animation:hp 3s ease-in-out infinite alternate; }
+  @keyframes hp{ from{ width:72%; } to{ width:100%; } }
+
+  /* high scores */
+  table.scores{ width:100%; border-collapse:collapse; font-size:21px; }
+  table.scores th{
+    font-family:var(--pixel); font-size:10px; color:var(--pink);
+    text-align:left; padding:6px 8px; border-bottom:2px dashed var(--pink);
+  }
+  table.scores td{ padding:7px 8px; vertical-align:top; }
+  table.scores tr:nth-child(odd) td{ color:var(--cyan); }
+  table.scores tr:nth-child(even) td{ color:var(--yellow); }
+  table.scores td:first-child{ font-family:var(--pixel); font-size:11px; white-space:nowrap; padding-top:11px; }
+  table.scores td.pts{ text-align:right; font-family:var(--pixel); font-size:11px; padding-top:11px; }
+  .sign{ margin-top:16px; text-align:center; color:#cfc4ee; }
+  .sign a, footer a{ color:var(--green); }
+
+  /* power-up tokens */
+  .tokens{ display:flex; flex-wrap:wrap; gap:14px; justify-content:center; margin-top:30px; }
+  .token{
+    width:92px; height:92px; border-radius:50%;
+    display:flex; align-items:center; justify-content:center; text-align:center;
+    font-family:var(--pixel); font-size:7px; line-height:1.7; color:#3a2a00;
+    background:radial-gradient(circle at 35% 30%, #fff8b0, #f9c800 45%, #b88a00 100%);
+    border:3px solid #6b5000;
+    box-shadow:inset 0 0 0 4px rgba(255,255,255,.25), 0 0 12px rgba(249,200,0,.5);
+    animation:coin 3s linear infinite;
+  }
+  .token:nth-child(2){ animation-delay:-.6s; } .token:nth-child(3){ animation-delay:-1.2s; }
+  .token:nth-child(4){ animation-delay:-1.8s; } .token:nth-child(5){ animation-delay:-2.4s; }
+  @keyframes coin{ 0%,70%,100%{ transform:scaleX(1); } 80%{ transform:scaleX(.1); } 90%{ transform:scaleX(1); } }
+
+  /* footer */
+  footer{ text-align:center; margin-top:34px; color:var(--dim); font-size:19px; }
+  footer .continue{ font-family:var(--pixel); font-size:13px; color:var(--pink); margin-bottom:14px; text-shadow:0 0 8px var(--pink); }
+  footer .continue b{ color:var(--yellow); }
+  footer p{ margin:6px 0; }
+  .hint{ font-size:16px; color:#4d4170; }
+
+  /* konami popup */
+  #oneup{
+    position:fixed; left:50%; top:40%; transform:translate(-50%,-50%) scale(0);
+    z-index:60; font-family:var(--pixel); font-size:clamp(18px,5vw,34px);
+    color:var(--green); text-shadow:4px 4px 0 var(--pink); text-align:center;
+    pointer-events:none; transition:transform .25s cubic-bezier(.3,1.8,.5,1);
+  }
+  #oneup.show{ transform:translate(-50%,-50%) scale(1); }
+  body.party .screen{ animation:rainbow 1s linear infinite; }
+  @keyframes rainbow{ 0%{ filter:hue-rotate(0); } 100%{ filter:hue-rotate(360deg); } }
 
   @media (max-width:600px){
-    body{ padding:8px; }
-    h1{ font-size:1.8em; }
-    marquee{ font-size:14px; }
-    table.appstable, table.appstable tbody, table.appstable tr, table.appstable td, table.appstable th{
-      display:block;
-      width:100%;
-      box-sizing:border-box;
-    }
-    table.appstable tr{ margin-bottom:10px; border:3px groove #999; }
-    table.appstable td{ border:none; border-top:1px solid #ccc; }
-    table.appstable td:first-child{ border-top:none; }
-    table.appstable th{ display:none; }
-    .app-icon-img{ width:48px; height:48px; }
+    body{ font-size:20px; }
+    .cabinet{ margin:16px auto; }
+    .screen{ padding:14px; border-radius:12px; }
+    .hud{ font-size:9px; }
+    .profile{ flex-direction:column; align-items:center; text-align:center; }
+    .profile dl{ text-align:left; }
+    table.scores td:first-child, table.scores th:first-child{ display:none; }
   }
-
-  @supports not (font-size: 1cqi){
-    .blink{ font-size:clamp(1.1em, 5vw, 1.8em); }
+  @media (prefers-reduced-motion:reduce){
+    *,*::before,*::after{ animation:none !important; transition:none !important; }
+    .ticker span{ padding-left:0; }
   }
-  @keyframes spin{ from{transform:rotate(0deg);} to{transform:rotate(360deg);} }
 </style>
 </head>
 <body>
 
-<marquee behavior="scroll" direction="left">*** WELCOME TO THE OFFICIAL AUTOMATA STUDIOS HOMEPAGE *** BEST VIEWED IN NETSCAPE NAVIGATOR *** SOLO DEVELOPER FROM DHAKA, BANGLADESH *** MAKE BEAUTIFUL GAMES AND APPS *** THANKS FOR VISITING ***</marquee>
-<marquee behavior="scroll" direction="right" style="background:#000; border:4px ridge #C0C0C0;"><span class="rainbow-text">★ ☆ NEW APPS COMING SOON ☆ ★ DON'T FORGET TO SIGN THE GUESTBOOK ★ ☆ TELL YOUR FRIENDS ☆ ★</span></marquee>
+<canvas id="stars" aria-hidden="true"></canvas>
+<div class="crt" aria-hidden="true"></div>
 
-<div class="container">
-  <div class="titlebar"><span>automata_studios.exe</span><span>[ _ ] [ &#9633; ] [ X ]</span></div>
+<div class="ticker"><span>★ INSERT COIN ★ WELCOME TO AUTOMATA STUDIOS ★ SOLO DEVELOPER FROM DHAKA, BANGLADESH ★ MAKING BEAUTIFUL GAMES AND APPS ★ NEW: AY MAMA LUDU KHELI COMING SOON ★ HIGH SCORE TABLE BELOW ★ TELL YOUR FRIENDS ★</span></div>
 
-  <center style="margin-top:20px; margin-bottom:12px;">
-    <!-- LOGO GOES HERE: replace src below with your logo file, e.g. "logo.png" or "logo.gif" -->
-    <img src="logo.png" alt="Automata Studios logo" width="120"
-      onerror="this.style.display='none'; document.getElementById('logo-fallback').style.display='flex';">
-    <div id="logo-fallback" style="display:none; width:120px; height:120px; margin:0 auto; border:3px ridge #fff; background:#000; color:#0f0; font-family:'Courier New',monospace; font-size:11px; align-items:center; justify-content:center; text-align:center;">
-      PUT YOUR<br>LOGO.PNG<br>HERE
+<main class="cabinet">
+  <div class="screen">
+
+    <div class="hud">
+      <div class="p1">1UP<span id="score">000000</span></div>
+      <div class="hi">HI-SCORE<span>999999</span></div>
+      <div class="cr">CREDITS<span id="credits">07</span></div>
     </div>
-  </center>
 
-  <h1>AUTOMATA STUDIOS</h1>
-  <div class="subtitle">&#9734; SOLO APP &amp; GAME DEVELOPER &#9734; FROM DHAKA, BANGLADESH &#9734; PASSION FOR MAKING BEAUTIFUL GAMES AND APPS &#9734;</div>
+    <img class="logo" src="logo.png" alt="Automata Studios logo" onerror="this.style.display='none'">
+    <h1 class="glitch">AUTOMATA<br>STUDIOS</h1>
+    <p class="tagline">SOLO APP &amp; GAME DEVELOPER · DHAKA, BANGLADESH</p>
+    <p class="press">▶ PRESS START · STRIVING FOR PERFECTION</p>
 
-<center>
-<span class="spin" style="display:inline-block; font-size:40px;">⭐</span>
-<span class="blink">STRIVING FOR PERFECTION</span>
-<span class="spin" style="display:inline-block; font-size:40px;">⭐</span>
-<br><br>
-<img src="https://commons.wikimedia.org/wiki/Special:FilePath/Under_construction_graphic.gif" alt="under construction" width="120"
-  onerror="this.style.display='none';">
-</center>
+    <div class="divider"></div>
 
-  <hr>
+    <section class="stage">
+      <h2>&#9733; SELECT YOUR GAME &#9733;</h2>
+      <p class="sub">Every app here is made by ONE guy. Pick a cartridge and hit PLAY!</p>
 
-  <div class="content">
-    <h2>&gt;&gt; MY APPS &lt;&lt;</h2>
-    <p>Click below to check out my apps on the Google Play Store!! All made with love by ONE guy. =)</p>
+      <div class="grid">
 
-    <table class="appstable">
-      <tr>
-        <th>ICON</th><th>APP NAME</th><th>RATING</th><th>GET IT</th>
-      </tr>
-      <tr>
-        <td>
-          <!-- LOGO: put "chakma-icon.png" next to index.html to use your own icon -->
-          <img class="app-icon-img" src="chakma-icon.png" alt="Learn Chakma With Me icon"
-            onerror="this.onerror=function(){this.style.display='none'; this.nextElementSibling.style.display='flex';}; this.src='https://play-lh.googleusercontent.com/ykvY_y4H2VE6RfH8WH4pHptAnROQ7eBddiqY5A-ZY931NISubfrnJAXYtrEEexZhT9yMHOQhoW_8a5vQQ4xV=s64';">
-          <div style="display:none; width:64px; height:64px; border:2px solid #000; background:#000; color:#0f0; font-family:'Courier New',monospace; font-size:9px; align-items:center; justify-content:center; text-align:center;">ICON<br>HERE</div>
-        </td>
-        <td><b>Learn Chakma With Me</b><br><span style="font-size:12px;">Learn the basics of Chakma Language easily with the new beautiful Bizu update!</span></td>
-        <td><span class="stars">&#9733;&#9733;&#9733;&#9733;&#9733;</span><br>4.5 stars<br>5K+ downloads</td>
-        <td><a class="visit-btn" href="https://play.google.com/store/apps/details?id=com.AutomataStudios.LearnChakmaWithMe">&#9654; INSTALL</a></td>
-      </tr>
-      <tr>
-        <td>
-          <!-- LOGO: put "blockyboi-icon.png" next to index.html to use your own icon -->
-          <img class="app-icon-img" src="blockyboi-icon.png" alt="Blocky Boi icon"
-            onerror="this.onerror=function(){this.style.display='none'; this.nextElementSibling.style.display='flex';}; this.src='https://play-lh.googleusercontent.com/33m7Kn7fwMgvXUMwdZD5AXbJb6IZDeZxtxeJuJUN3eYc5YiJ0xV5WORt9WPA6NWnhfA=s94';">
-          <div style="display:none; width:64px; height:64px; border:2px solid #000; background:#000; color:#0f0; font-family:'Courier New',monospace; font-size:9px; align-items:center; justify-content:center; text-align:center;">ICON<br>HERE</div>
-        </td>
-        <td><b>Blocky Boi: Unique Puzzle Game</b><br><span style="font-size:12px;">A unique and addicting puzzle game. Give your brain a workout!</span></td>
-        <td><span class="stars">&#9733;&#9733;&#9733;&#9733;&#9733;</span><br>5.0 stars</td>
-        <td><a class="visit-btn" href="https://play.google.com/store/apps/details?id=com.AutomataStudios.blockyboi">&#9654; INSTALL</a></td>
-      </tr>
-      <tr>
-        <td>
-          <!-- LOGO: put "deenclock-icon.png" next to index.html to use your own icon -->
-          <img class="app-icon-img" src="deenclock-icon.png" alt="DeenClock icon"
-            onerror="this.onerror=function(){this.style.display='none'; this.nextElementSibling.style.display='flex';}; this.src='https://play-lh.googleusercontent.com/yYlO0xBi1wJGjssgCKq6fZSmEPGx3ESYFqw-S1tiD_rFxXXH9pCfjAWo8_5CPvsmJg=s94';">
-          <div style="display:none; width:64px; height:64px; border:2px solid #000; background:#000; color:#0f0; font-family:'Courier New',monospace; font-size:9px; align-items:center; justify-content:center; text-align:center;">ICON<br>HERE</div>
-        </td>
-        <td><b>কুরআন ও নামাজের সময় : দীনঘড়ি (DeenGhori)</b><br><span style="font-size:12px;">Quran and prayer times, a helpful companion for your daily prayers and routine.</span></td>
-        <td><span class="stars">&#9733;&#9733;&#9733;&#9733;&#9733;</span><br>5.0 stars</td>
-        <td><a class="visit-btn" href="https://play.google.com/store/apps/details?id=com.automatastudios.deenghori">&#9654; INSTALL</a></td>
-      </tr>
-      <tr>
-        <td>
-          <img class="app-icon-img" src="drutopdf-icon.png" alt="DrutoPDF icon"
-            onerror="this.onerror=function(){this.style.display='none'; this.nextElementSibling.style.display='flex';}; this.src='https://play-lh.googleusercontent.com/yOLPnVrp62cMmn83kGMdx1FgghQBa8mGxVh6PapZsyNio0UVLouze5BLF6FPbH62h75K0k4Q5k6ZSPwjqJLAKkc=s94';">
-          <div style="display:none; width:64px; height:64px; border:2px solid #000; background:#000; color:#0f0; font-family:'Courier New',monospace; font-size:9px; align-items:center; justify-content:center; text-align:center;">ICON<br>HERE</div>
-        </td>
-        <td><b>দ্রুতপিডিএফ : DrutoPDF</b> <span class="blink" style="font-size:12px;">NEW!</span><br><span style="font-size:12px;">Auto-crop document scanner plus PDF convert, merge, edit, compress, protect and unlock. All in Bangla!</span></td>
-        <td><span class="stars">&#9733;&#9733;&#9733;&#9733;&#9734;</span><br>4.3 (7 reviews)<br>100+ downloads</td>
-        <td><a class="visit-btn" href="https://play.google.com/store/apps/details?id=com.automatastudios.drutopdf">&#9654; INSTALL</a></td>
-      </tr>
-      <tr>
-        <td>
-          <img class="app-icon-img" src="stranded-icon.png" alt="Stranded icon"
-            onerror="this.onerror=function(){this.style.display='none'; this.nextElementSibling.style.display='flex';}; this.src='https://play-lh.googleusercontent.com/_SfB5Mz1qFB4i67yAlVhPkGcGBH5isOOLyttnGGAmw3YAg6M3ohU9sLMX9R0aNkBFBsf-6EheGrSsC6a6AOA=s94';">
-          <div style="display:none; width:64px; height:64px; border:2px solid #000; background:#000; color:#0f0; font-family:'Courier New',monospace; font-size:9px; align-items:center; justify-content:center; text-align:center;">ICON<br>HERE</div>
-        </td>
-        <td><b>স্ট্র্যান্ডেড: বাঁচার লড়াই (Stranded)</b> <span class="blink" style="font-size:12px;">NEW!</span><br><span style="font-size:12px;">Stuck on a castaway island. Can you survive?</span></td>
-        <td>New game!</td>
-        <td><a class="visit-btn" href="https://play.google.com/store/apps/details?id=com.AutomataStudios.CastAwayIslandSurvival">&#9654; INSTALL</a></td>
-      </tr>
-      <tr>
-        <td>
-          <img class="app-icon-img" src="petcare-icon.png" alt="My Cute Pet Hospital icon"
-            onerror="this.onerror=function(){this.style.display='none'; this.nextElementSibling.style.display='flex';}; this.src='https://play-lh.googleusercontent.com/pew2dJ9_ov8919FhuHnUPjSeoT50eR86TKwYNQkVx6xwwEWLTufl6i2SxlABozOTqG_eVMa7_giciHF9EkB1=s94';">
-          <div style="display:none; width:64px; height:64px; border:2px solid #000; background:#000; color:#0f0; font-family:'Courier New',monospace; font-size:9px; align-items:center; justify-content:center; text-align:center;">ICON<br>HERE</div>
-        </td>
-        <td><b>My Cute Pet Hospital</b> <span class="blink" style="font-size:12px;">NEW!</span><br><span style="font-size:12px;">Take care of adorable pets and nurse them back to health!</span></td>
-        <td>New game!</td>
-        <td><a class="visit-btn" href="https://play.google.com/store/apps/details?id=com.automatastudios.dogcare">&#9654; INSTALL</a></td>
-      </tr>
-      <tr>
-        <td>
-          <div style="display:flex; width:64px; height:64px; border:2px solid #000; background:#000; font-size:40px; align-items:center; justify-content:center;">&#127922;</div>
-        </td>
-        <td><b>Ay Mama Ludu Kheli (Bangla Ludu)</b> <span class="blink" style="font-size:12px;">COMING SOON!</span><br><span style="font-size:12px;">Classic Ludu, the Bangla way. Make a room and play with your friends!</span></td>
-        <td>Coming soon!</td>
-        <td><span class="visit-btn" style="background:#C0C0C0; color:#555; cursor:default;">&#9203; SOON</span></td>
-      </tr>
-    </table>
+        <article class="cart">
+          <span class="sel">◀ SELECT</span>
+          <div class="top">
+            <img src="chakma-icon.png" alt="Learn Chakma With Me icon">
+            <h3>LEARN CHAKMA WITH ME</h3>
+          </div>
+          <p>Learn the basics of the Chakma language easily with the beautiful Bizu update!</p>
+          <div class="meta"><span class="stars">★★★★☆</span><span class="stat">4.5 · 5K+ DLs</span></div>
+          <a class="btn" href="https://play.google.com/store/apps/details?id=com.AutomataStudios.LearnChakmaWithMe">▶ PLAY</a>
+        </article>
 
-    <center style="margin-top:14px;">
-      <a class="visit-btn" style="background:#FFFF00;" href="https://play.google.com/store/apps/dev?id=7177646858487969160">&#9734;&#9734;&#9734; SEE ALL MY APPS ON GOOGLE PLAY &#9734;&#9734;&#9734;</a>
-    </center>
+        <article class="cart">
+          <span class="sel">◀ SELECT</span>
+          <div class="top">
+            <img src="blockyboi-icon.png" alt="Blocky Boi icon">
+            <h3>BLOCKY BOI: UNIQUE PUZZLE GAME</h3>
+          </div>
+          <p>A unique and addicting puzzle game. Give your brain a workout!</p>
+          <div class="meta"><span class="stars">★★★★★</span><span class="stat">5.0</span></div>
+          <a class="btn" href="https://play.google.com/store/apps/details?id=com.AutomataStudios.blockyboi">▶ PLAY</a>
+        </article>
+
+        <article class="cart">
+          <span class="sel">◀ SELECT</span>
+          <div class="top">
+            <img src="deenclock-icon.png" alt="DeenGhori icon">
+            <h3><span class="bn">কুরআন ও নামাজের সময় : দীনঘড়ি</span>DEENGHORI</h3>
+          </div>
+          <p>Quran and prayer times, a helpful companion for your daily prayers and routine.</p>
+          <div class="meta"><span class="stars">★★★★★</span><span class="stat">5.0</span></div>
+          <a class="btn" href="https://play.google.com/store/apps/details?id=com.automatastudios.deenghori">▶ PLAY</a>
+        </article>
+
+        <article class="cart">
+          <span class="sel">◀ SELECT</span>
+          <div class="top">
+            <img src="drutopdf-icon.png" alt="DrutoPDF icon">
+            <h3><span class="bn">দ্রুতপিডিএফ</span>DRUTOPDF<span class="new">NEW</span></h3>
+          </div>
+          <p>Auto-crop document scanner plus PDF convert, merge, edit, compress, protect and unlock. All in Bangla!</p>
+          <div class="meta"><span class="stars">★★★★☆</span><span class="stat">4.3 · 100+ DLs</span></div>
+          <a class="btn" href="https://play.google.com/store/apps/details?id=com.automatastudios.drutopdf">▶ PLAY</a>
+        </article>
+
+        <article class="cart">
+          <span class="sel">◀ SELECT</span>
+          <div class="top">
+            <img src="stranded-icon.png" alt="Stranded icon">
+            <h3><span class="bn">স্ট্র্যান্ডেড: বাঁচার লড়াই</span>STRANDED<span class="new">NEW</span></h3>
+          </div>
+          <p>Stuck on a castaway island. Can you survive?</p>
+          <div class="meta"><span class="stars">☆☆☆☆☆</span><span class="stat">FRESH DROP</span></div>
+          <a class="btn" href="https://play.google.com/store/apps/details?id=com.AutomataStudios.CastAwayIslandSurvival">▶ PLAY</a>
+        </article>
+
+        <article class="cart">
+          <span class="sel">◀ SELECT</span>
+          <div class="top">
+            <img src="petcare-icon.png" alt="My Cute Pet Hospital icon">
+            <h3>MY CUTE PET HOSPITAL<span class="new">NEW</span></h3>
+          </div>
+          <p>Take care of adorable pets and nurse them back to health!</p>
+          <div class="meta"><span class="stars">☆☆☆☆☆</span><span class="stat">FRESH DROP</span></div>
+          <a class="btn" href="https://play.google.com/store/apps/details?id=com.automatastudios.dogcare">▶ PLAY</a>
+        </article>
+
+        <article class="cart locked">
+          <span class="sel">◀ LOCKED</span>
+          <div class="top">
+            <div class="noicon" aria-hidden="true">🎲</div>
+            <h3>AY MAMA LUDU KHELI<span class="bn">(BANGLA LUDU)</span></h3>
+          </div>
+          <p>Classic Ludu, the Bangla way. Make a room and play with your friends!</p>
+          <div class="meta"><span class="stars">? ? ? ? ?</span><span class="stat">COMING SOON</span></div>
+          <span class="btn" aria-disabled="true">🔒 LOCKED</span>
+        </article>
+
+      </div>
+
+      <div class="center">
+        <a class="btn big" href="https://play.google.com/store/apps/dev?id=7177646858487969160">★ ALL GAMES ON GOOGLE PLAY ★</a>
+      </div>
+    </section>
+
+    <div class="divider"></div>
+
+    <section class="stage">
+      <h2>PLAYER 1</h2>
+      <p class="sub">character select</p>
+      <div class="profile">
+        <div class="avatar" aria-hidden="true">👾</div>
+        <div>
+          <dl>
+            <dt>CLASS</dt><dd>Solo Dev (idea → code → art → publish)</dd>
+            <dt>BASE</dt><dd>Dhaka, Bangladesh</dd>
+            <dt>HP</dt><dd><span class="bar"><i></i></span></dd>
+            <dt>SPECIAL</dt><dd>Making stuff that's fun AND useful</dd>
+          </dl>
+          <p>Hiya!! I'm the guy behind <b>Automata Studios</b> :-) I build apps and games all by myself. Check my GitHub for more nerd stuff!</p>
+          <a class="btn" href="https://github.com/pritomx">💾 VISIT MY GITHUB</a>
+        </div>
+      </div>
+    </section>
+
+    <div class="divider"></div>
+
+    <section class="stage">
+      <h2>HIGH SCORES</h2>
+      <p class="sub">a.k.a. the guestbook</p>
+      <table class="scores">
+        <tr><th>RANK</th><th>PLAYER SAYS</th><th style="text-align:right">SCORE</th></tr>
+        <tr><td>1ST</td><td>"Great apps, 10/10!!" - a happy user</td><td class="pts">99999</td></tr>
+        <tr><td>2ND</td><td>"Learn Chakma app is so cool" - another visitor</td><td class="pts">88888</td></tr>
+        <tr><td>3RD</td><td>"Blocky Boi ate my whole weekend, 5 stars" - sleepy gamer</td><td class="pts">77777</td></tr>
+        <tr><td>4TH</td><td>"finally an app that gets my prayer times right" - DeenGhori fan</td><td class="pts">66666</td></tr>
+        <tr><td>5TH</td><td>"scanned my whole thesis with DrutoPDF lol" - broke student</td><td class="pts">55555</td></tr>
+        <tr><td>6TH</td><td>"ur website is so cool i miss the arcade" - nostalgic nerd</td><td class="pts">44444</td></tr>
+      </table>
+      <p class="sign">ENTER YOUR INITIALS: email me at <a href="mailto:contact.automatastudios@gmail.com">contact.automatastudios@gmail.com</a> !!</p>
+    </section>
+
+    <div class="tokens" aria-label="badges">
+      <span class="token">MADE<br>WITH<br>NOTEPAD</span>
+      <span class="token">100%<br>HAND<br>CODED</span>
+      <span class="token">NO<br>FRAME-<br>WORKS</span>
+      <span class="token">BEST ON<br>CRT</span>
+      <span class="token">NO<br>COOKIES<br>TRACKED</span>
+    </div>
+
+    <footer>
+      <p class="continue">CONTINUE? <b id="countdown">9</b></p>
+      <p>&copy; AUTOMATA STUDIOS · ALL RIGHTZ RESERVED · Dhaka, Bangladesh</p>
+      <p><a href="https://github.com/pritomx">github.com/pritomx</a> · <a href="https://play.google.com/store/apps/dev?id=7177646858487969160">Google Play</a></p>
+      <p>Follow me on Insta: shahariar.chowdhory 💬 Always up for a good discussion</p>
+      <p class="hint">psst... ↑ ↑ ↓ ↓ ← → ← → B A</p>
+    </footer>
+
   </div>
+</main>
 
-  <hr>
-
-  <div class="content">
-    <h2>&gt;&gt; ABOUT ME &lt;&lt;</h2>
-    <p>Hiya!! I'm the guy behind <b>Automata Studios</b> :-) I build apps and games all by myself, from idea to code to art to publishing. I live in Dhaka, Bangladesh and I LOVE making stuff that's fun and useful. Check my GitHub for more nerd stuff!</p>
-    <center>
-      <a class="visit-btn" href="https://github.com/pritomx">&#128190; VISIT MY GITHUB &#128190;</a>
-    </center>
-  </div>
-
-  <div class="badges">
-    <span class="badge">MADE WITH<br>NOTEPAD</span>
-    <span class="badge">100%<br>HAND CODED</span>
-    <span class="badge">NO<br>FRAMEWORKS</span>
-    <span class="badge">BEST VIEWED<br>800x600</span>
-    <span class="badge">NO<br>COOKIES TRACKED</span>
-  </div>
-
-  <div class="content guestbook">
-    &gt; Sign my guestbook!! <span class="blink">_</span><br>
-    &gt; "Great apps, 10/10!!" - a happy user<br>
-    &gt; "Learn Chakma app is so cool" - another visitor<br>
-    &gt; "Blocky Boi ate my whole weekend, 5 stars" - sleepy gamer<br>
-    &gt; "finally an app that gets my prayer times right" - DeenGhori fan<br>
-    &gt; "scanned my whole thesis with DrutoPDF lol" - broke student<br>
-    &gt; "ur website is so cool i miss the 2000s" - nostalgic nerd<br>
-    &gt; wanna tell your story or share a message? email me at <a class="gh" href="mailto:contact.automatastudios@gmail.com">contact.automatastudios@gmail.com</a> !!
-  </div>
-
-  <hr>
-
-  <footer>
-    <p>&copy; AUTOMATA STUDIOS &mdash; ALL RIGHTZ RESERVED &mdash; Dhaka, Bangladesh</p>
-    <p><a class="gh" href="https://github.com/pritomx">github.com/pritomx</a> &#12290; <a class="gh" href="https://play.google.com/store/apps/dev?id=7177646858487969160">Google Play</a></p>
-    <p>This page best viewed with cookies enabled and a 56k modem &#128222;&#128190;</p>
-    <p style="font-size:11px;">Follow me on Insta : shahariar.chowdhory &#128172; &mdash; Always up for a good discussion</p>
-  </footer>
-</div>
-
-<canvas id="confetti-canvas" style="position:fixed; top:0; left:0; width:100%; height:100%; pointer-events:none; z-index:9999;"></canvas>
+<div id="oneup">+30 LIVES!<br>CHEAT ACTIVATED</div>
 
 <script>
-  // --- Confetti burst on load, classic 2000s "congrats you visited my site" gimmick ---
+  // --- warp-speed starfield ---
   (function(){
-    const canvas = document.getElementById('confetti-canvas');
-    const ctx = canvas.getContext('2d');
-    function resize(){ canvas.width = window.innerWidth; canvas.height = window.innerHeight; }
-    resize();
-    window.addEventListener('resize', resize);
-
-    const colors = ['#FF0000','#FFFF00','#00FF00','#00FFFF','#FF00FF','#FFA500'];
-    let pieces = [];
-    function spawnBurst(count){
-      for(let i=0;i<count;i++){
-        pieces.push({
-          x: Math.random()*canvas.width,
-          y: -20 - Math.random()*canvas.height*0.3,
-          size: 4+Math.random()*6,
-          color: colors[Math.floor(Math.random()*colors.length)],
-          speedY: 2+Math.random()*3,
-          speedX: (Math.random()-0.5)*2,
-          rotation: Math.random()*360,
-          rotSpeed: (Math.random()-0.5)*10
-        });
+    var c = document.getElementById('stars'), x = c.getContext('2d');
+    var stars = [], W, H, speed = 2;
+    var reduce = window.matchMedia && matchMedia('(prefers-reduced-motion: reduce)').matches;
+    function size(){ W = c.width = innerWidth; H = c.height = innerHeight; }
+    size(); addEventListener('resize', size);
+    for (var i = 0; i < 220; i++) stars.push({ x:(Math.random()-.5)*W, y:(Math.random()-.5)*H, z:Math.random()*W });
+    var colors = ['#ffffff','#05d9e8','#ff2a6d','#f9f871'];
+    function frame(){
+      x.fillStyle = 'rgba(7,0,15,.35)'; x.fillRect(0,0,W,H);
+      for (var i = 0; i < stars.length; i++){
+        var s = stars[i];
+        s.z -= speed; if (s.z <= 1){ s.z = W; s.x = (Math.random()-.5)*W; s.y = (Math.random()-.5)*H; }
+        var k = 128 / s.z, px = s.x*k + W/2, py = s.y*k + H/2, r = Math.max(1, (1 - s.z/W) * 3);
+        x.fillStyle = colors[i % 4];
+        x.fillRect(px|0, py|0, r, r);
       }
+      if (!reduce) requestAnimationFrame(frame);
     }
-    spawnBurst(120);
+    frame();
+    window.__warp = function(v){ speed = v; };
+  })();
 
-    let running = true;
-    function animate(){
-      if(!running) return;
-      ctx.clearRect(0,0,canvas.width,canvas.height);
-      pieces.forEach(p=>{
-        p.y += p.speedY;
-        p.x += p.speedX;
-        p.rotation += p.rotSpeed;
-        ctx.save();
-        ctx.translate(p.x,p.y);
-        ctx.rotate(p.rotation*Math.PI/180);
-        ctx.fillStyle = p.color;
-        ctx.fillRect(-p.size/2,-p.size/2,p.size,p.size*0.6);
-        ctx.restore();
-      });
-      pieces = pieces.filter(p=>p.y < canvas.height+30);
-      requestAnimationFrame(animate);
-      if(pieces.length===0) running=false;
-    }
-    animate();
+  // --- 1UP score ticks up while you browse; scrolling adds points ---
+  (function(){
+    var el = document.getElementById('score'), score = 0, lastY = scrollY;
+    function show(){ el.textContent = String(Math.min(score, 999999)).padStart(6, '0'); }
+    setInterval(function(){ score += 10; show(); }, 1000);
+    addEventListener('scroll', function(){ score += Math.abs(scrollY - lastY) | 0; lastY = scrollY; show(); }, { passive:true });
+    document.querySelectorAll('.btn').forEach(function(b){ b.addEventListener('click', function(){ score += 1000; show(); }); });
+  })();
 
-    // Re-trigger a smaller burst on click, because why not
-    document.addEventListener('click', function(){
-      spawnBurst(30);
-      if(!running){ running=true; animate(); }
+  // --- CONTINUE? countdown that loops forever ---
+  (function(){
+    var el = document.getElementById('countdown'), n = 9;
+    setInterval(function(){ n = n <= 0 ? 9 : n - 1; el.textContent = n; }, 1000);
+  })();
+
+  // --- pixel explosion on click ---
+  (function(){
+    var colors = ['#ff2a6d','#05d9e8','#f9f871','#39ff14','#b026ff'];
+    document.addEventListener('click', function(e){
+      for (var i = 0; i < 14; i++){
+        var p = document.createElement('i');
+        var a = Math.random() * Math.PI * 2, d = 30 + Math.random() * 50;
+        p.style.cssText = 'position:fixed;left:' + e.clientX + 'px;top:' + e.clientY + 'px;width:6px;height:6px;z-index:70;pointer-events:none;background:' +
+          colors[i % colors.length] + ';transition:transform .5s ease-out,opacity .5s ease-out';
+        document.body.appendChild(p);
+        (function(p, a, d){
+          requestAnimationFrame(function(){ requestAnimationFrame(function(){
+            p.style.transform = 'translate(' + Math.cos(a)*d + 'px,' + Math.sin(a)*d + 'px)';
+            p.style.opacity = '0';
+          }); });
+          setTimeout(function(){ p.remove(); }, 550);
+        })(p, a, d);
+      }
     });
   })();
 
-  // --- Sparkly cursor trail, classic Geocities/Neopets gimmick ---
+  // --- Konami code: ↑↑↓↓←→←→BA ---
   (function(){
-    const sparkles = ['&#10022;','&#10038;','&#9733;','&#10024;'];
-    let last = 0;
-    document.addEventListener('mousemove', function(e){
-      const now = Date.now();
-      if(now - last < 60) return; // throttle
-      last = now;
-      const s = document.createElement('span');
-      s.innerHTML = sparkles[Math.floor(Math.random()*sparkles.length)];
-      s.style.position='fixed';
-      s.style.left = e.clientX+'px';
-      s.style.top = e.clientY+'px';
-      s.style.color = ['#FF00FF','#00FFFF','#FFFF00','#00FF00'][Math.floor(Math.random()*4)];
-      s.style.fontSize = (12+Math.random()*10)+'px';
-      s.style.pointerEvents='none';
-      s.style.zIndex = 9998;
-      s.style.transition = 'transform 0.8s ease-out, opacity 0.8s ease-out';
-      document.body.appendChild(s);
-      requestAnimationFrame(()=>{
-        s.style.transform = `translateY(${20+Math.random()*20}px) rotate(${(Math.random()-0.5)*180}deg)`;
-        s.style.opacity = '0';
-      });
-      setTimeout(()=> s.remove(), 850);
+    var seq = ['ArrowUp','ArrowUp','ArrowDown','ArrowDown','ArrowLeft','ArrowRight','ArrowLeft','ArrowRight','b','a'], pos = 0;
+    addEventListener('keydown', function(e){
+      var k = e.key.length === 1 ? e.key.toLowerCase() : e.key;
+      pos = (k === seq[pos]) ? pos + 1 : (k === seq[0] ? 1 : 0);
+      if (pos === seq.length){
+        pos = 0;
+        var o = document.getElementById('oneup');
+        o.classList.add('show'); document.body.classList.add('party'); window.__warp(18);
+        document.getElementById('credits').textContent = '99';
+        setTimeout(function(){ o.classList.remove('show'); document.body.classList.remove('party'); window.__warp(2); }, 3500);
+      }
     });
   })();
 </script>
