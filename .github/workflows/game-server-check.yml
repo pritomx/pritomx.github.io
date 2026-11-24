@@ -54,6 +54,7 @@ jobs:
           T: ${{ secrets.NTFY_TOPIC }}
         run: |
           curl -s -H "Title: Mama Ludu server DOWN" -H "Priority: urgent" -H "Tags: rotating_light" \
+            -H "Actions: view, This check, ${{ github.server_url }}/${{ github.repository }}/actions/runs/${{ github.run_id }}, clear=false; view, Check history, ${{ github.server_url }}/${{ github.repository }}/actions/workflows/game-server-check.yml, clear=false" \
             -d "The game server does not answer (${{ steps.ping.outputs.why }}). Checked from GitHub $(date -u '+%H:%M UTC')." "https://ntfy.sh/$T" > /dev/null
       - name: Phone push (back up)
         if: steps.ping.outputs.down == '0' && steps.last.outputs.prev == 'failure' && env.T != ''
