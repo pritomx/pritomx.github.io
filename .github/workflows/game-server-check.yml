@@ -1,0 +1,62 @@
+# Mama Ludu: is the game server up? Every 5 minutes GitHub connects to the game port (TLS 7778) and sends "ping".
+# Down twice in a row (1 minute apart) -> this run fails: GitHub e-mails the repo owner, and a push goes to the phone
+# app ntfy (topic in the secret NTFY_TOPIC). Back up after a failed run -> a "back up" push.
+name: game-server-check
+on:
+  schedule:
+    - cron: "*/5 * * * *"
+  workflow_dispatch:
+permissions:
+  actions: read
+jobs:
+  check:
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    steps:
+      - name: Ping the game server
+        id: ping
+        shell: python
+        run: |
+          import json, socket, ssl, time, os
+          def ping():
+              ctx = ssl.SSLContext(ssl.PROTOCOL_TLS_CLIENT); ctx.check_hostname = False; ctx.verify_mode = ssl.CERT_NONE
+              with ctx.wrap_socket(socket.create_connection(("103.159.2.51", 7778), timeout=15)) as s:
+                  s.settimeout(15); s.sendall(b'{"id":1,"op":"ping"}\n')
+                  return json.loads(s.recv(4096).split(b"\n")[0]).get("ok") is True
+          why = ""
+          for attempt in range(2):
+              try:
+                  if ping():
+                      print("game server is up"); why = ""; break
+                  why = "bad answer"
+              except Exception as e:
+                  why = "%s: %s" % (type(e).__name__, e)
+              print("attempt", attempt + 1, "failed:", why)
+              if attempt == 0: time.sleep(60)
+          with open(os.environ["GITHUB_OUTPUT"], "a") as f:
+              f.write("down=%s\nwhy=%s\n" % ("1" if why else "0", why.replace("\n", " ")[:200]))
+      - name: Was the last run a failure?
+        id: last
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          c=$(gh run list -R "$GITHUB_REPOSITORY" -w game-server-check -L 5 --json conclusion,databaseId -q "[.[] | select(.databaseId != $GITHUB_RUN_ID) | .conclusion][0]" 2>/dev/null)
+          echo "prev=$c" >> "$GITHUB_OUTPUT"
+      - name: Phone push (down)
+        if: steps.ping.outputs.down == '1' && env.T != ''
+        env:
+          T: ${{ secrets.NTFY_TOPIC }}
+        run: |
+          curl -s -H "Title: Mama Ludu server DOWN" -H "Priority: urgent" -H "Tags: rotating_light" \
+            -d "The game server does not answer (${{ steps.ping.outputs.why }}). Checked from GitHub $(date -u '+%H:%M UTC')." "https://ntfy.sh/$T" > /dev/null
+      - name: Phone push (back up)
+        if: steps.ping.outputs.down == '0' && steps.last.outputs.prev == 'failure' && env.T != ''
+        env:
+          T: ${{ secrets.NTFY_TOPIC }}
+        run: |
+          curl -s -H "Title: Mama Ludu server back up" -H "Tags: white_check_mark" -d "The game server answers again." "https://ntfy.sh/$T" > /dev/null
+      - name: Fail the run when down (GitHub e-mails you)
+        if: steps.ping.outputs.down == '1'
+        run: |
+          echo "::error::Mama Ludu game server is down: ${{ steps.ping.outputs.why }}"
+          exit 1
