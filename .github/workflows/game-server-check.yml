@@ -6,6 +6,10 @@ on:
   schedule:
     - cron: "*/5 * * * *"
   workflow_dispatch:
+    inputs:
+      port:
+        description: "port to check (a closed one, e.g. 7799, tests the alert)"
+        default: "7778"
 permissions:
   actions: read
 jobs:
@@ -16,11 +20,13 @@ jobs:
       - name: Ping the game server
         id: ping
         shell: python
+        env:
+          PORT: ${{ github.event.inputs.port || '7778' }}
         run: |
           import json, socket, ssl, time, os
           def ping():
               ctx = ssl.SSLContext(ssl.PROTOCOL_TLS_CLIENT); ctx.check_hostname = False; ctx.verify_mode = ssl.CERT_NONE
-              with ctx.wrap_socket(socket.create_connection(("103.159.2.51", 7778), timeout=15)) as s:
+              with ctx.wrap_socket(socket.create_connection(("103.159.2.51", int(os.environ["PORT"])), timeout=15)) as s:
                   s.settimeout(15); s.sendall(b'{"id":1,"op":"ping"}\n')
                   return json.loads(s.recv(4096).split(b"\n")[0]).get("ok") is True
           why = ""
